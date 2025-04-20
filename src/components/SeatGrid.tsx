@@ -77,7 +77,7 @@ const SeatGrid: React.FC<SeatGridProps> = ({ seats, isAdmin, roomId }) => {
 
   return (
     <>
-      <div className="grid grid-cols-5 gap-3 m-6">
+      <div className="grid grid-cols-5 gap-3 mt-10">
         {seatData.map((row, rowIdx) =>
           row.map((seat, colIdx) => {
             const bg =

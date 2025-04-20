@@ -30,7 +30,7 @@ const SeatManager = ({roomId}:seatprops) => {
     },[roomId])
 
   return (
-    <div className='p-6'>
+    <div className='p-6 mt-10'>
       <h2 className='text-center my-4'>{roomName}</h2>
       {seats.length > 0 && (
         <>
