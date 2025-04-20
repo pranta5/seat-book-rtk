@@ -1,7 +1,16 @@
 import { database, ID } from "../appwrite";
 
-const DB_ID = process.env.NEXT_PUBLIC_APPWRITE_DB_ID!;
-const USER_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_USERCOLLECTION_ID!;
+const DB_ID = process.env.NEXT_PUBLIC_APPWRITE_DB_ID;
+const USER_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_USERCOLLECTION_ID;
+
+if (!DB_ID) {
+  throw new Error("Missing environment variable: NEXT_PUBLIC_APPWRITE_DB_ID");
+}
+
+if (!USER_COLLECTION_ID) {
+  throw new Error("Missing environment variable: NEXT_PUBLIC_APPWRITE_USERCOLLECTION_ID");
+}
+
 
 export const createUser = async (
   name: string,

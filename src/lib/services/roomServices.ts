@@ -1,8 +1,15 @@
 import { Room, Seat } from "@/types/rooms";
 import { database, ID } from "../appwrite";
 
-const DB_ID = process.env.NEXT_PUBLIC_APPWRITE_DB_ID!;
-const ROOM_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_ROOMCOLLECTION_ID!;
+const DB_ID = process.env.NEXT_PUBLIC_APPWRITE_DB_ID;
+const ROOM_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_ROOMCOLLECTION_ID;
+if (!DB_ID) {
+  throw new Error("Missing environment variable: NEXT_PUBLIC_APPWRITE_DB_ID");
+}
+
+if (!ROOM_COLLECTION_ID) {
+  throw new Error("Missing environment variable: NEXT_PUBLIC_APPWRITE_ROOM_COLLECTION_ID");
+}
 
 export const createRoom = async (name: string, layout: Seat[][]):Promise<Room> => {
   const res = await database.createDocument(
