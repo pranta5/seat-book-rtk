@@ -34,7 +34,7 @@ const dispatch=useAppDispatch()
         placeholder="Search User"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full px-4 py-2 mb-6 border rounded text-white"
+        className="w-full px-4 py-2 mb-6 border rounded text-blue-600"
 
       />
 
