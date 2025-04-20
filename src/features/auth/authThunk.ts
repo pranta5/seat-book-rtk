@@ -12,7 +12,8 @@ export const loginThunk = createAsyncThunk<
   try {
     const session = await loginService(formData.email, formData.password);
     return { email: session?.email || "" };
-  } catch (error: any) {
+  } catch (err ) {
+    const error = err as Error;
     return thunkAPI.rejectWithValue(error.message || "error in login");
   }
 });
@@ -22,7 +23,8 @@ export const logoutThunk = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       await logoutService();
-    } catch (error: any) {
+    } catch (err ) {
+      const error = err as Error;
       return thunkAPI.rejectWithValue(error.message || "logout failed");
     }
   }
@@ -34,7 +36,8 @@ export const checkSessionThunk = createAsyncThunk(
     try {
       const user = await checkSessionService();
       return user;
-    } catch (error: any) {
+    } catch (err ) {
+      const error = err as Error;
       return thunkAPI.rejectWithValue(error.message || "failed");
     }
   }

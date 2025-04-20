@@ -72,6 +72,9 @@ const SeatGrid: React.FC<SeatGridProps> = ({ seats, isAdmin, roomId }) => {
   useEffect(() => {
     dispatch(getUsersThunk());
   }, [dispatch]);
+  if(loading) return <p className="text-center">Loading..</p>
+  if (error) return <p>Error in SeatGrid</p>
+
   return (
     <>
       <div className="grid grid-cols-5 gap-3 m-6">

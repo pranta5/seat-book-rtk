@@ -16,7 +16,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     if (!isAdmin) {
         router.push("/admin-login");
       }
-  },[isAdmin])
+  },[isAdmin,router])
 
 
   if (loading || !isAdmin) {

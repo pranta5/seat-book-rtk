@@ -1,10 +1,10 @@
-import { Seat } from "@/types/rooms";
+import { Room, Seat } from "@/types/rooms";
 import { database, ID } from "../appwrite";
 
 const DB_ID = process.env.NEXT_PUBLIC_APPWRITE_DB_ID!;
 const ROOM_COLLECTION_ID = process.env.NEXT_PUBLIC_APPWRITE_ROOMCOLLECTION_ID!;
 
-export const createRoom = async (name: string, layout: Seat[][]) => {
+export const createRoom = async (name: string, layout: Seat[][]):Promise<Room> => {
   const res = await database.createDocument(
     DB_ID,
     ROOM_COLLECTION_ID,
@@ -14,13 +14,18 @@ export const createRoom = async (name: string, layout: Seat[][]) => {
       layout: JSON.stringify(layout),
     }
   );
-  return res;
+  return{
+    $id:res.$id,
+    name : res.name || 'unnamed',
+    layout:JSON.parse(res.layout || '[]') 
+  };
 };
 
-export const getRooms = async () => {
+export const getRooms = async ():Promise<Room[]> => {
   const res = await database.listDocuments(DB_ID, ROOM_COLLECTION_ID);
   return res.documents.map((doc) => ({
-    ...doc,
+    $id : doc.$id,
+    name :doc.name || "unnamed room",
     layout: JSON.parse(doc.layout),
   }));
 };

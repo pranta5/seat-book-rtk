@@ -27,7 +27,7 @@ const SeatManager = ({roomId}:seatprops) => {
 
     useEffect(()=>{
         fetchRoom()
-    },[])
+    },[roomId])
 
   return (
     <div className='p-6'>

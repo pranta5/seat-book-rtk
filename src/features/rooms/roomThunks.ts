@@ -15,12 +15,9 @@ export const createRoomThunk = createAsyncThunk<
 >("rooms/create", async (roomData, thunkAPI) => {
   try {
     const newRoom = await createRoomService(roomData.name, roomData.layout);
-    return {
-      $id: newRoom.$id,
-      name: (newRoom as any).name || "unnamed ",
-      layout: (newRoom as any).layout || [],
-    };
-  } catch (error: any) {
+    return newRoom;
+  } catch (err) {
+    const error = err as Error;
     return thunkAPI.rejectWithValue(error.message || "failed");
   }
 });
@@ -32,13 +29,9 @@ export const fetchRoomsThunk = createAsyncThunk<
 >("rooms/fetchAll", async (_, thunkAPI) => {
   try {
     const rooms = await getRooms();
-    const formattedRooms: Room[] = rooms.map((room) => ({
-      $id: room.$id,
-      name: (room as any).name || "Unnamed Room", // Provide a default value if 'name' is missing
-      layout: room.layout,
-    }));
-    return formattedRooms;
-  } catch (error: any) {
+    return rooms;
+  } catch (err) {
+    const error = err as Error;
     return thunkAPI.rejectWithValue(error.message || "error in fetch room");
   }
 });
@@ -51,33 +44,42 @@ export const deleteRoomThunk = createAsyncThunk<
   try {
     await deleteRoomService(roomId);
     return roomId;
-  } catch (error: any) {
+  } catch (err) {
+    const error = err as Error;
     return thunkAPI.rejectWithValue(error.message || " failed");
   }
 });
 
 export const getRoomByIdThunk = createAsyncThunk(
   "room/roomById",
-  async (roomId :string, thunkAPI) => {
+  async (roomId: string, thunkAPI) => {
     try {
-      const room = await getRoomById(roomId)
-      return room
-    } catch (error: any) {
+      const room = await getRoomById(roomId);
+      return room;
+    } catch (err) {
+      const error = err as Error;
       return thunkAPI.rejectWithValue(error.message || "failed in byid");
     }
   }
 );
 
 export const updateRoomLayoutThunk = createAsyncThunk(
-  'room/updateLayout',async({roomId,layout}:{roomId:string,layout:Seat[][]},thunkAPI)=>{
+  "room/updateLayout",
+  async (
+    { roomId, layout }: { roomId: string; layout: Seat[][] },
+    thunkAPI
+  ) => {
     try {
-      const res = await updateRoomLayout(roomId,layout)
+      const res = await updateRoomLayout(roomId, layout);
       return {
         roomId,
-        layout:JSON.parse(res.layout)
-      }
-    } catch (error:any) {
-      return thunkAPI.rejectWithValue(error.message || 'failed to update layout')
+        layout: JSON.parse(res.layout),
+      };
+    } catch (err) {
+      const error = err as Error;
+      return thunkAPI.rejectWithValue(
+        error.message || "failed to update layout"
+      );
     }
   }
-)
+);

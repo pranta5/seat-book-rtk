@@ -11,7 +11,8 @@ export const createUserThunk = createAsyncThunk('user/create',async(data:userTs,
         email:newuser.email,
         position:newuser.position
        }
-    } catch (error:any) {
+    } catch (err ) {
+        const error = err as Error;
         return thunkAPI.rejectWithValue(error.message || " failed in create user")
     }
 })
@@ -26,7 +27,8 @@ export const getUsersThunk = createAsyncThunk<userTs[],void,{rejectValue:string}
             position:doc.position
         }))
         return users
-    } catch (error:any) {
+    } catch (err ) {
+        const error = err as Error;
         return thunkAPI.rejectWithValue(error.message || "failed while get user")
     }
 })
@@ -35,7 +37,8 @@ export const deleteUserThunk = createAsyncThunk('user/delete',async(userId: stri
     try {
         await deleteUser(userId)
         return userId
-    } catch ( error : any) {
+    } catch (err ) {
+        const error = err as Error;
         return thunkAPI.rejectWithValue(error.message || "failed in delete user")
     }
 })
